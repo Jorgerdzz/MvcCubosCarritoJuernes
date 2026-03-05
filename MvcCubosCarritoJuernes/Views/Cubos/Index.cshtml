@@ -1,0 +1,44 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<Cubo>
+<h1>Cubos</h1>
+
+<a asp-controller="Cubos" asp-action="Create" class="btn btn-success">New Cubo</a>
+
+@if(Model != null)
+{
+    <table class="table table-info table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Imagen</th>
+                <th>Precio</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(Cubo cubo in Model)
+            {
+                <tr>
+                    <td>@cubo.Nombre</td>
+                    <td>@cubo.Marca</td>
+                    <td>@cubo.Modelo</td>
+                    <td>
+                        <img src="~/cubos/@cubo.Imagen" style="width:50px; height:50px;"/>
+                    </td>
+                    <td>@cubo.Precio</td>
+                    <td>
+                        <a asp-controller="Cubos" asp-action="Details" asp-route-idCubo="@cubo.IdCubo" class="btn btn-success">Details</a>
+                        <a asp-controller="Cubos" asp-action="Update" asp-route-idCubo="@cubo.IdCubo" class="btn btn-warning">Update</a>
+                        <a asp-controller="Cubos" asp-action="Guardar" asp-route-idCubo="@cubo.IdCubo" class="btn btn-outline-success">Guardar en el carrito</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

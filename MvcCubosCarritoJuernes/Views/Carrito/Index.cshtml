@@ -1,0 +1,74 @@
+﻿@model IEnumerable<MvcCubosCarritoJuernes.Models.Cubo>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Carrito</h1>
+
+@if(Model != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdCubo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Modelo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Marca)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Imagen)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Precio)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdCubo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Modelo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Marca)
+                    </td>
+                    <td>
+                        <img src="~/cubos/@Html.DisplayFor(modelItem => item.Imagen)" style="width:40px; height:40px" /> 
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Precio)
+                    </td>
+                    <td>
+                        <a asp-controller="Carrito" asp-action="Index" class="btn btn-outline-danger">Eliminar del carrito</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2 style="color:blue">Suma total: @ViewData["SUMA"]</h2>
+
+    <a asp-controller="Carrito" asp-action="Index" class="btn btn-primary">Comprar</a>
+
+}
+else
+{
+    <h2 style="color: red">No existen productos en el carrito</h2>
+}
+
