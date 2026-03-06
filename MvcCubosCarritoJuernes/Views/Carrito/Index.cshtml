@@ -55,7 +55,7 @@
                         @Html.DisplayFor(modelItem => item.Precio)
                     </td>
                     <td>
-                        <a asp-controller="Carrito" asp-action="Index" class="btn btn-outline-danger">Eliminar del carrito</a>
+                        <a asp-controller="Carrito" asp-action="Index" asp-route-idEliminar="@item.IdCubo" class="btn btn-outline-danger">Eliminar del carrito</a>
                     </td>
                 </tr>
             }

@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    List<Cubo> cubosFavoritos = memoryCache.Get<List<Cubo>>("FAVORITOS");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -31,6 +35,19 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Carrito" asp-action="Index">Carrito</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cubos" asp-action="Favoritos">Favoritos</a>
+                        </li>
+                        <li class="nav-item">
+                            @if(cubosFavoritos != null)
+                            {
+                                <h2 style="background-color: yellowgreen">Cubos favoritos: @cubosFavoritos.Count</h2>
+                            }
+                            else
+                            {
+                                <h2 style="background-color: yellowgreen">Cubos favoritos: 0</h2>
+                            }
                         </li>
                     </ul>
                 </div>
