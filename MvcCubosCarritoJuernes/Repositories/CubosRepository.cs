@@ -81,13 +81,17 @@ namespace MvcCubosCarritoJuernes.Repositories
 
         public async Task InsertCuboAsync(Cubo cubo)
         {
-            string sql = "CALL SP_INSERT_CUBO(@p_nombre, @p_modelo, @p_marca, @p_imagen, @p_precio)";
-            MySqlParameter pamNom = new MySqlParameter("@p_nombre", cubo.Nombre);
-            MySqlParameter pamMod = new MySqlParameter("@p_modelo", cubo.Modelo);
-            MySqlParameter pamMar = new MySqlParameter("@p_marca", cubo.Marca);
-            MySqlParameter pamImg = new MySqlParameter("@p_imagen", cubo.Imagen);
-            MySqlParameter pamPrecio = new MySqlParameter("@p_precio", cubo.Precio);
-            await this.context.Database.ExecuteSqlRawAsync(sql, pamNom, pamMod, pamMar, pamImg, pamPrecio);
+            if (this.context.Cubos.Any())
+            {
+                int maxId = this.context.Cubos.Max(x => x.IdCubo);
+                cubo.IdCubo = maxId + 1;
+            }
+            else
+            {
+                cubo.IdCubo = 1; 
+            }
+            await this.context.Cubos.AddAsync(cubo);
+            await this.context.SaveChangesAsync();
         }
 
         public async Task<List<Cubo>> GetCubosSessionAsync(List<int> idsCubos)

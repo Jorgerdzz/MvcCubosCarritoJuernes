@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using MvcCoreUtilidades.Helpers;
 using MvcCubosCarritoJuernes.Extensions;
 using MvcCubosCarritoJuernes.Models;
 using MvcCubosCarritoJuernes.Repositories;
@@ -11,11 +12,13 @@ namespace MvcCubosCarritoJuernes.Controllers
     {
         private CubosRepository repo;
         private IMemoryCache memoryCache;
+        private HelperPathProvider helper;
 
-        public CubosController(CubosRepository repo, IMemoryCache memoryCache)
+        public CubosController(CubosRepository repo, IMemoryCache memoryCache, HelperPathProvider helper)
         {
             this.repo = repo;
             this.memoryCache = memoryCache;
+            this.helper = helper;
         }
 
         public async Task<IActionResult> Index()
@@ -50,9 +53,21 @@ namespace MvcCubosCarritoJuernes.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Cubo cubo)
+        public async Task<IActionResult> Create(Cubo cubo, IFormFile fichero)
         {
+            string fileName = fichero.FileName;
+
+            string path = this.helper.MapPath(fileName, Folders.Cubos);
+
+            using (Stream stream = new FileStream(path, FileMode.Create))
+            {
+                await fichero.CopyToAsync(stream);
+            }
+
+            cubo.Imagen = fileName;
+
             await this.repo.InsertCuboAsync(cubo);
+
             return RedirectToAction("Index");
         }
 
